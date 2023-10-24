@@ -20,10 +20,10 @@ const retrieveDataFromAPIControllerFunc = ({ retrieveDataFromAPIUseCase }) => {
         },
         statusCode: 200,
         body: {
-          "success" : true,
-          "code" : 200,
-          "mesage" : "Livestock successfully added",
-          "data" : livestock
+          success: true,
+          code: 200,
+          mesage: 'Livestock successfully added',
+          data: livestock
         }
       }
     } catch (e) {
@@ -32,10 +32,10 @@ const retrieveDataFromAPIControllerFunc = ({ retrieveDataFromAPIUseCase }) => {
         headers,
         statusCode: e.message,
         body: {
-          "success" : false,
-          "code" : e.statusCode,
-          "mesage" : e.mesage,
-          "data" : e.data
+          success: false,
+          code: e.statusCode,
+          mesage: e.mesage,
+          data: e.data
         }
       }
     }

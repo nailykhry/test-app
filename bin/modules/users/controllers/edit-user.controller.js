@@ -21,10 +21,10 @@ const editUserController = ({ editUserUseCase }) => {
         },
         statusCode: 200,
         body: {
-          "success" : true,
-            "code" : 201,
-            "mesage" : "User successfully edited",
-            "data" : user
+          success: true,
+          code: 201,
+          mesage: 'User successfully edited',
+          data: user
         }
       }
     } catch (e) {
@@ -33,10 +33,10 @@ const editUserController = ({ editUserUseCase }) => {
         headers,
         statusCode: e.statusCode,
         body: {
-          "success" : "false",
-          "code" : e.statusCode,
-          "message" : e.message,
-          "data" : e.data
+          success: 'false',
+          code: e.statusCode,
+          message: e.message,
+          data: e.data
         }
       }
     }

@@ -3,13 +3,14 @@ const productData = ({ dbConnect }) => {
   return Object.freeze({
     getAllProducts,
     getProductById,
+    getProductByIdHalal,
     addNewProduct,
     editProduct,
     softDeleteProduct,
     findByProductName
   })
 
-  async function getAllProducts() {
+  async function getAllProducts () {
     let connection
     try {
       connection = await dbConnect()
@@ -26,7 +27,7 @@ const productData = ({ dbConnect }) => {
     }
   }
 
-  async function getProductById(userObjectId) {
+  async function getProductById (userObjectId) {
     let connection
     try {
       connection = await dbConnect()
@@ -45,7 +46,26 @@ const productData = ({ dbConnect }) => {
     }
   }
 
-  async function addNewProduct(product) {
+  async function getProductByIdHalal (id) {
+    let connection
+    try {
+      connection = await dbConnect()
+      const collection = connection.db().collection('products-rph')
+
+      const product = await collection.findOne({ id_halal: id, deleted_at: null })
+
+      return product
+    } catch (error) {
+      console.error('Gagal mengambil ternak berdasarkan ID:', error)
+      throw error
+    } finally {
+      if (connection) {
+        await connection.close()
+      }
+    }
+  }
+
+  async function addNewProduct (product) {
     let connection
     try {
       connection = await dbConnect()
@@ -63,19 +83,19 @@ const productData = ({ dbConnect }) => {
     }
   }
 
-  async function editProduct(productObjectId, updatedProductData) {
+  async function editProduct (productObjectId, updatedProductData) {
     let connection
     try {
       connection = await dbConnect()
       const collection = connection.db().collection('products-rph')
-     
+
       const result = await collection.updateOne(
         { _id: new ObjectId(productObjectId) },
         { $set: updatedProductData }
       )
       return result
     } catch (error) {
-        console.error('Gagal mengedit prodict:', error)
+      console.error('Gagal mengedit prodict:', error)
       throw error
     } finally {
       if (connection) {
@@ -84,7 +104,7 @@ const productData = ({ dbConnect }) => {
     }
   }
 
-  async function findByProductName(name) {
+  async function findByProductName (name) {
     let connection
     try {
       connection = await dbConnect()
@@ -101,7 +121,7 @@ const productData = ({ dbConnect }) => {
     }
   }
 
-  async function softDeleteProduct(productObjectId) {
+  async function softDeleteProduct (productObjectId) {
     let connection
     try {
       connection = await dbConnect()

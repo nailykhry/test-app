@@ -5,7 +5,7 @@ const {
   userUpdateEntity
 } = require('../entities/index')
 
-const { generateToken, comparePassword, encryptPassword } = require('../../../utils/index')
+const { generateToken, comparePassword } = require('../../../utils/index')
 
 const registerUser = require('./register-user.usecase')
 const editUser = require('./edit-user.usecase')
@@ -14,7 +14,7 @@ const viewAllUsers = require('./view-all-users.usecase')
 const loginUser = require('./login-user.usecase')
 const softDelUser = require('./soft-delete-user.usecase')
 
-const registerUseCase = registerUser({ userDB, userEntity, encryptPassword })
+const registerUseCase = registerUser({ userDB, userEntity })
 const editUserUseCase = editUser({ userDB, userUpdateEntity })
 const viewAllUsersUseCase = viewAllUsers({ userDB })
 const viewUserUseCase = viewUser({ userDB })

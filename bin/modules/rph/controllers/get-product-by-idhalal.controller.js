@@ -1,5 +1,5 @@
-const viewProductsController = ({ getAllProductsUsecase }) => {
-  return async function getAll (httpRequest) {
+const viewProductByIdHalalController = ({ getProductByIdHalalUsecase }) => {
+  return async function view (httpRequest) {
     const headers = {
       'Content-Type': 'application/json'
     }
@@ -9,25 +9,24 @@ const viewProductsController = ({ getAllProductsUsecase }) => {
       source.browser = httpRequest.headers['User-Agent']
       const response = {
         ...info,
-        source
+        source,
+        id_halal: httpRequest.params.id_halal
       }
 
-      const products = await getAllProductsUsecase(response)
-
+      const product = await getProductByIdHalalUsecase(response)
       return {
         headers: {
           'Content-Type': 'application/json'
         },
         statusCode: 200,
         body: {
-          success: 'true',
+          success: true,
           code: 200,
-          message: 'Product RPH data has been successfully retrieved.',
-          data: products
+          mesage: 'Product successfully showed',
+          data: product
         }
       }
     } catch (e) {
-      console.log(e.message)
       return {
         headers,
         statusCode: e.statusCode,
@@ -35,11 +34,11 @@ const viewProductsController = ({ getAllProductsUsecase }) => {
           success: 'false',
           code: e.statusCode,
           message: e.message,
-          data: e.data
+          data: null
         }
       }
     }
   }
 }
 
-module.exports = viewProductsController
+module.exports = viewProductByIdHalalController

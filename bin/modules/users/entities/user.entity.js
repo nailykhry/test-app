@@ -1,33 +1,14 @@
 const userEntity = (user) => {
-  const { username, password, name, contact_number, user_role_id } = user
+  const { email, nama, no_telp, password, role, id_perusahaan } = user
 
-  if (!username) {
-    throw new Error('User harus memiliki username!')
-  }
-
-  if (!password) {
-    throw new Error('User harus memiliki password!')
-  }
-
-  if (!name) {
-    throw new Error('User harus memiliki name!')
-  }
-
-  if (!contact_number) {
-    throw new Error('User harus memiliki contact_number!')
-  }
-
-  if (!user_role_id) {
-    throw new Error('User harus memiliki role!')
-  }
 
   return Object.freeze({
-    username,
+    email,
+    nama,
+    no_telp,
     password,
-    name,
-    contact_number,
-    user_role_id
+    role,
+    id_perusahaan
   })
 }
-
 module.exports = userEntity

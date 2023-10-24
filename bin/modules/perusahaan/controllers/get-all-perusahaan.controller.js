@@ -1,4 +1,4 @@
-const viewProductsController = ({ getAllProductsUsecase }) => {
+const viewPerusahaanController = ({ getAllPerusahaanUsecase }) => {
   return async function getAll (httpRequest) {
     const headers = {
       'Content-Type': 'application/json'
@@ -11,8 +11,7 @@ const viewProductsController = ({ getAllProductsUsecase }) => {
         ...info,
         source
       }
-
-      const products = await getAllProductsUsecase(response)
+      const perusahaan = await getAllPerusahaanUsecase(response)
 
       return {
         headers: {
@@ -22,8 +21,8 @@ const viewProductsController = ({ getAllProductsUsecase }) => {
         body: {
           success: 'true',
           code: 200,
-          message: 'Product RPH data has been successfully retrieved.',
-          data: products
+          message: 'User data has been successfully retrieved.',
+          data: perusahaan
         }
       }
     } catch (e) {
@@ -42,4 +41,4 @@ const viewProductsController = ({ getAllProductsUsecase }) => {
   }
 }
 
-module.exports = viewProductsController
+module.exports = viewPerusahaanController

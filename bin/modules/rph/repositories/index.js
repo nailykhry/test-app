@@ -6,6 +6,6 @@ const livestockDB = livestockData({ dbConnect })
 const productDB = productData({ dbConnect })
 
 module.exports = {
-    livestockDB,
-    productDB
+  livestockDB,
+  productDB
 }

@@ -1,8 +1,6 @@
+const { check, validationResult } = require('express-validator')
 const registerUserController = ({ registerUseCase }) => {
   return async function post (httpRequest) {
-    const headers = {
-      'Content-Type': 'application/json'
-    }
     try {
       const { source = {}, ...info } = httpRequest.body
       source.ip = httpRequest.ip
@@ -12,32 +10,17 @@ const registerUserController = ({ registerUseCase }) => {
         source
       }
 
-      const user = await registerUseCase(response)
-
-      return {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        statusCode: 200,
-        body: {
-          "success" : "true",
-          "code" : 200,
-          "message" : "Registered successfully",
-          "data" : user
-        }
+      const errors = validationResult(httpRequest.req)
+      if (!errors.isEmpty()) {
+        return Responser.error(httpRequest.res, errors.errors[0].path + ' ' + errors.errors[0].msg, errors.errors, 400)
       }
+
+      const user = await registerUseCase(response)
+      Responser.success(httpRequest.res, 'Registrasi berhasil', user, 201)
+      
     } catch (e) {
       console.log(e)
-      return {
-        headers,
-        statusCode: e.statusCode,
-        body: {
-          "success" : "false",
-          "code" : e.statusCode,
-          "message" : e.message,
-          "data" : e.data
-        }
-      }
+      Responser.error(httpRequest.res, e.message, e.data, e.statusCode)
     }
   }
 }

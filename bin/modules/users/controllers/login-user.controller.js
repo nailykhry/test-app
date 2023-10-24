@@ -1,8 +1,5 @@
 const loginUserAuthController = ({ loginUserUseCase }) => {
   return async function getAll (httpRequest) {
-    const headers = {
-      'Content-Type': 'application/json'
-    }
     try {
       const { source = {}, ...info } = httpRequest.body
       source.ip = httpRequest.ip
@@ -12,31 +9,10 @@ const loginUserAuthController = ({ loginUserUseCase }) => {
         source
       }
       const user = await loginUserUseCase(response)
-
-      return {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        statusCode: 200,
-        body: {
-          "success" : "true",
-          "code" : 200,
-          "message" : "Log in successfully",
-          "data" : user
-        }
-      }
+      Responser.success(httpRequest.res, 'User berhasil login', user, 200)
     } catch (e) {
       console.log(e)
-      return {
-        headers,
-        statusCode: e.statusCode,
-        body: {
-          "success" : "false",
-          "code" : e.statusCode,
-          "message" : e.message,
-          "data" : e.data
-        }
-      }
+      Responser.error(httpRequest.res, e.message, e.data, e.statusCode)
     }
   }
 }

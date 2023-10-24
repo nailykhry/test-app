@@ -1,5 +1,5 @@
-const viewProductsController = ({ getAllProductsUsecase }) => {
-  return async function getAll (httpRequest) {
+const addProductController = ({ addPerusahaanUsecase }) => {
+  return async function add (httpRequest) {
     const headers = {
       'Content-Type': 'application/json'
     }
@@ -12,22 +12,20 @@ const viewProductsController = ({ getAllProductsUsecase }) => {
         source
       }
 
-      const products = await getAllProductsUsecase(response)
-
+      const product = await addPerusahaanUsecase(response)
       return {
         headers: {
           'Content-Type': 'application/json'
         },
         statusCode: 200,
         body: {
-          success: 'true',
+          success: true,
           code: 200,
-          message: 'Product RPH data has been successfully retrieved.',
-          data: products
+          mesage: 'Perusahaan berhasil ditambahkan',
+          data: product
         }
       }
     } catch (e) {
-      console.log(e.message)
       return {
         headers,
         statusCode: e.statusCode,
@@ -35,11 +33,11 @@ const viewProductsController = ({ getAllProductsUsecase }) => {
           success: 'false',
           code: e.statusCode,
           message: e.message,
-          data: e.data
+          data: null
         }
       }
     }
   }
 }
 
-module.exports = viewProductsController
+module.exports = addProductController

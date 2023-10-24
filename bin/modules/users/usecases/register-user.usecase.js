@@ -1,6 +1,6 @@
-const CustomError = require('../../../utils/custom-error.util')
-const registerUser = ({ userDB, userEntity, encryptPassword }) => {
+const registerUser = ({ userDB, userEntity }) => {
   return async function postUser (info) {
+    console.log(info)
     const result = userEntity(info)
     const userExists = await userDB.findByUsername(result.username)
 
@@ -8,11 +8,11 @@ const registerUser = ({ userDB, userEntity, encryptPassword }) => {
       throw new CustomError('User already exists', 400, null)
     }
 
-    const hashed_password = await encryptPassword(result.password)
+    const hashedPassword = await encryptPassword(result.password);
 
     const data = await userDB.registerUser({
       username: result.username,
-      password: hashed_password,
+      password: hashedPassword,
       name: result.name,
       contact_number: result.contact_number,
       user_role_id: result.user_role_id

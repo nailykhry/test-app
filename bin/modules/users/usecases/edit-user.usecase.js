@@ -1,4 +1,4 @@
-const CustomError = require('../../../utils/custom-error.util')
+const CustomError = require('../../../utils/CustomErrorUtil')
 
 const editUser = ({ userDB, userUpdateEntity }) => {
   return async function putUser (user) {

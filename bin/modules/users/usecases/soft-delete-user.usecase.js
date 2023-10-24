@@ -1,4 +1,4 @@
-const CustomError = require('../../../utils/custom-error.util')
+const CustomError = require('../../../utils/CustomErrorUtil')
 const softDelUser = ({ userDB }) => {
   return async function deleteUser (info) {
     const { id } = info

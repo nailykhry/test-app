@@ -1,8 +1,5 @@
 const fetchUserDetailsController = ({ viewUserUseCase }) => {
   return async function getDetails (httpRequest) {
-    const headers = {
-      'Content-Type': 'application/json'
-    }
     try {
       const { source = {}, ...info } = httpRequest.body
       source.ip = httpRequest.ip
@@ -13,31 +10,14 @@ const fetchUserDetailsController = ({ viewUserUseCase }) => {
         id: httpRequest.params.id
       }
       const user = await viewUserUseCase(response)
-
-      return {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        statusCode: 200,
-        body: {
-          "success" : "true",
-          "code" : 200,
-          "message" : "User data has been successfully retrieved.",
-          "data" : user
-        }
+      if (!user) {
+        Responser.error(httpRequest.res, 'Data yang dicari tidak ada', user, 404)
       }
+
+      Responser.success(httpRequest.res, 'Berhasil mengambil data user by id', user, 200)
     } catch (e) {
       console.log(e)
-      return {
-        headers,
-        statusCode: e.statusCode,
-        body: {
-          "success" : "false",
-          "code" : e.statusCode,
-          "message" : e.message,
-          "data" : e.data
-        }
-      }
+      Responser.error(httpRequest.res, 'Internal server error', e, 500)
     }
   }
 }

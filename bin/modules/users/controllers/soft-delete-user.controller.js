@@ -1,8 +1,5 @@
 const deleteUserController = ({ softDeleteUserUseCase }) => {
   return async function get (httpRequest) {
-    const headers = {
-      'Content-Type': 'application/json'
-    }
     try {
       const { source = {}, ...info } = httpRequest.body
       source.ip = httpRequest.ip
@@ -15,30 +12,10 @@ const deleteUserController = ({ softDeleteUserUseCase }) => {
 
       const user = await softDeleteUserUseCase(response)
 
-      return {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        statusCode: 200,
-        body: {
-          "success" : "true",
-          "code" : 200,
-          "message" : "User data has been successfully deleted.",
-          "data" : user
-        }
-      }
+      Responser.success(httpRequest.res, 'Data user berhasil dihapus', user, 204)
     } catch (e) {
       console.log(e)
-      return {
-        headers,
-        statusCode: e.statusCode,
-        body: {
-          "success" : "false",
-          "code" : e.statusCode,
-          "message" : e.message,
-          "data" : e.data
-        }
-      }
+      Responser.error(httpRequest.res, e.message, e.data, e.statusCode)
     }
   }
 }

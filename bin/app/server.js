@@ -8,12 +8,15 @@ const path = require('path')
 const helmet = require('helmet')
 const app = express()
 
+global.Responser = require('../utils/LibResponserUtil')
+global.CustomError = require('../utils/CustomErrorUtil')
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../views'));
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, '../views'))
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -28,11 +31,12 @@ app.get('/api/v1', (req, res) => {
 
 // ROUTER
 app.use('/api/v1', require('../modules/users/user.route'))
+app.use('/api/v1', require('../modules/perusahaan/perusahaan.route'))
 app.use('/api/v1/rph', require('../modules/rph/rph.route'))
 
 app.get('/api/v1/example', (req, res) => {
-  res.render('qr-example', { title: 'QR CODE PAGE', message: 'Hello, EJS!' });
-});
+  res.render('qr-example', { title: 'QR CODE PAGE', message: 'Hello, EJS!' })
+})
 
 const PORT = process.env.APP_PORT || 3000
 
