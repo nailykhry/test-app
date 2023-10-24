@@ -1,4 +1,4 @@
-const registerUser = ({ userDB, userEntity }) => {
+const registerUser = ({ userDB, userEntity, encryptPassword }) => {
   return async function postUser (info) {
     console.log(info)
     const result = userEntity(info)
