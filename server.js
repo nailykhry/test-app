@@ -45,4 +45,7 @@ app.post('/ingredients', function(req, res) {
     res.status(200).send("Successfully posted ingredient");
 });
 
-app.listen(6069);
+
+app.listen(5000, "0.0.0.0", function () {
+  console.log('running')
+});
